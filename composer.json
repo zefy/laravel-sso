@@ -6,11 +6,12 @@
     "require": {
         "php": ">=7.1.3",
         "guzzlehttp/guzzle": "^6.3",
-        "laravel/framework": "^5.5"
+        "laravel/framework": "^5.5",
+        "zefy/php-simple-sso": "^1.0"
     },
     "autoload": {
       "psr-4": {
-        "Zefy\\SimpleSSO\\": "src/"
+        "Zefy\\LaravelSSO\\": "src/"
       }
     },
     "extra": {

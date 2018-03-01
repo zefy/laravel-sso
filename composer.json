@@ -17,7 +17,7 @@
     "extra": {
       "laravel": {
         "providers": [
-          "Zefy\\LaravelSSO\\SSOServiceProvider"
+            "Zefy\\LaravelSSO\\SSOServiceProvider"
         ]
       }
     }

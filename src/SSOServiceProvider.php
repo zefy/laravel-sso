@@ -28,6 +28,14 @@ class SSOServiceProvider extends ServiceProvider
         }
 
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                CreateBroker::class,
+                DeleteBroker::class,
+                ListBrokers::class,
+            ]);
+        }
     }
 
     /**

@@ -24,17 +24,22 @@ Install this package using composer.
 composer require zefy/laravel-sso
 ```
 
+
 Copy config file to Laravel project `config/` folder.
 ```shell
 php artisan vendor:publish --provider="Zefy\LaravelSSO\SSOServiceProvider"
 ```
+
 
 Create table where all brokers will be saved.
 ```shell
 php artisan migrate --path=vendor/zefy/laravel-sso/database/migrations
 ```
 
-Now you should create new brokers in your database at table named `brokers`.
+Now you should create brokers.
+You can create new broker using Artisan CLI command `php artisan sso:broker:create {name}`.
+
+----------
 
 ### Broker
 Install this package using composer.
@@ -42,26 +47,33 @@ Install this package using composer.
 composer require zefy/laravel-sso
 ```
 
+
 Copy config file to Laravel project `config/` folder.
 ```shell
 php artisan vendor:publish --provider="Zefy\LaravelSSO\SSOServiceProvider"
 ```
 
+
 Change `type` value in `config/laravel-sso.php` file from `server`
  to `broker`.
- Set 3 new options in your `.env` file:
- ```shell
- SSO_SERVER_URL=
- SSO_BROKER_NAME=
- SSO_BROKER_SECRET=
- ```
- `SSO_SERVER_URL` is your server's http url without trailing slash (for example: https://server.test). `SSO_BROKER_NAME` and `SSO_BROKER_SECRET` must be data which exists in your server's `brokers` table.
+
  
- Example `.env` options:
-  ```shell
- SSO_SERVER_URL=https://server.test
- SSO_BROKER_NAME=site1
- SSO_BROKER_SECRET=892asjdajsdksja74jh38kljk2929023
- ```
- 
- For other brokers everything is the same.
+
+Set 3 new options in your `.env` file:
+```shell
+SSO_SERVER_URL=
+SSO_BROKER_NAME=
+SSO_BROKER_SECRET=
+```
+`SSO_SERVER_URL` is your server's http url without trailing slash. `SSO_BROKER_NAME` and `SSO_BROKER_SECRET` must be data which exists in your server's `brokers` table.
+
+
+
+Example `.env` options:
+```shell
+SSO_SERVER_URL=https://server.test
+SSO_BROKER_NAME=site1
+SSO_BROKER_SECRET=892asjdajsdksja74jh38kljk2929023
+```
+
+For other brokers everything is the same just use different broker name and secret token.

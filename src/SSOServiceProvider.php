@@ -3,6 +3,7 @@
 namespace Zefy\LaravelSSO;
 
 use Illuminate\Support\ServiceProvider;
+use Zefy\LaravelSSO\Commands;
 
 class SSOServiceProvider extends ServiceProvider
 {
@@ -31,9 +32,9 @@ class SSOServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->commands([
-                CreateBroker::class,
-                DeleteBroker::class,
-                ListBrokers::class,
+                Commands\CreateBroker::class,
+                Commands\DeleteBroker::class,
+                Commands\ListBrokers::class,
             ]);
         }
     }

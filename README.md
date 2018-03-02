@@ -15,7 +15,7 @@ This package based on [Simple PHP SSO skeleton](https://github.com/zefy/php-simp
 * ***Client/User*** - your every visitor.
 
 ### How it works?
-Client visits Broker and unique token is generated. When new token is generated we need to attach Client session to his session in Broker so he will be redirected to Server and back to Broker so new session in Server will be created and associated with Client session in Broker's page. When Client visits other Broker same steps will be done except that when Client will be redirected to Server he already use his old session and same session id which associated with Broker#1.
+Client visits Broker and unique token is generated. When new token is generated we need to attach Client session to his session in Broker so he will be redirected to Server and back to Broker at this moment new session in Server will be created and associated with Client session in Broker's page. When Client visits other Broker same steps will be done except that when Client will be redirected to Server he already use his old session and same session id which associated with Broker#1.
 
 # Installation
 ### Server
@@ -36,8 +36,22 @@ Create table where all brokers will be saved.
 php artisan migrate --path=vendor/zefy/laravel-sso/database/migrations
 ```
 
+
+Edit your `app/Http/Kernel.php` by removing throttle middleware and adding sessions middleware to `api` middlewares array.
+This is necessary because we need sessions to work in API routes and throttle middleware can block connections which we need.
+```php
+'api' => [
+    'bindings',
+    \Illuminate\Session\Middleware\StartSession::class,
+],
+```
+
+
 Now you should create brokers.
-You can create new broker using Artisan CLI command `php artisan sso:broker:create {name}`.
+You can create new broker using following Artisan CLI command:
+```shell
+php artisan sso:broker:create {name}
+```
 
 ----------
 
@@ -69,11 +83,54 @@ SSO_BROKER_SECRET=
 
 
 
+Edit your `app/Http/Kernel.php` by adding `\Zefy\LaravelSSO\Middleware\SSOAutoLogin::class` middleware to `web` middleware group. It should look like this:
+```php
+protected $middlewareGroups = [
+        'web' => [
+            ...
+            \Zefy\LaravelSSO\Middleware\SSOAutoLogin::class,
+        ],
+
+        'api' => [
+            ...
+        ],
+    ];
+```
+
+
+
+Last but not least, you need to edit `app/Http/Controllers/Auth/LoginController.php`. You should add two functions into `LoginController` class which will authenticate your client through SSO server but not your Broker page.
+```php
+protected function attemptLogin(Request $request)
+{
+    $broker = new \Zefy\LaravelSSO\LaravelSSOBroker;
+    
+    return $broker->login($request->get($this->username()), $request->get('password'));
+}
+
+public function logout(Request $request)
+{
+    $broker = new \Zefy\LaravelSSO\LaravelSSOBroker;
+    
+    $broker->logout();
+    
+    $this->guard()->logout();
+    
+    $request->session()->invalidate();
+    
+    return redirect('/');
+}
+```
+
+
+That's all. For other Broker pages you should repeat everything from the beginning just changing your Broker name and secret in configuration file.
+
+
+
+
 Example `.env` options:
 ```shell
 SSO_SERVER_URL=https://server.test
 SSO_BROKER_NAME=site1
 SSO_BROKER_SECRET=892asjdajsdksja74jh38kljk2929023
 ```
-
-For other brokers everything is the same just use different broker name and secret token.

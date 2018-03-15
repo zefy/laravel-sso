@@ -209,7 +209,7 @@ class LaravelSSOServer extends SSOServer
      */
     protected function saveBrokerSessionData(string $brokerSessionId, string $sessionData)
     {
-        Cache::put('broker_session:' . $brokerSessionId, $sessionData, now()->addDay());
+        Cache::put('broker_session:' . $brokerSessionId, $sessionData, now()->addHour());
     }
 
     /**

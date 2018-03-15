@@ -69,7 +69,7 @@ class LaravelSSOBroker extends SSOBroker
 
         // If cookie token doesn't exist, we need to create it with unique token...
         $this->token = str_random(40);
-        Cookie::queue(Cookie::make($this->getCookieName(), $this->token, 60 * 12));
+        Cookie::queue(Cookie::make($this->getCookieName(), $this->token, 60));
 
         // ... and attach it to broker session in SSO server.
         $this->attach();
@@ -107,13 +107,13 @@ class LaravelSSOBroker extends SSOBroker
         switch ($method) {
             case 'POST':
                 $body = ['form_params' => $parameters];
-            break;
+                break;
             case 'GET':
                 $body = ['query' => $parameters];
                 break;
             default:
                 $body = [];
-            break;
+                break;
         }
 
         $client = new GuzzleHttp\Client;

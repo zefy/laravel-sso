@@ -62,7 +62,7 @@ class LaravelSSOServer extends SSOServer
      * @param string $username
      * @param string $password
      *
-     * @return bool|array
+     * @return bool
      */
     protected function authenticate(string $username, string $password)
     {
@@ -76,7 +76,7 @@ class LaravelSSOServer extends SSOServer
             return true;
         }
 
-        return ['error' => 'Wrong username and/or password.'];
+        return false;
     }
 
     /**

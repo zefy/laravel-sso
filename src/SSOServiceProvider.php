@@ -23,11 +23,6 @@ class SSOServiceProvider extends ServiceProvider
     {
         $this->publishConfig(__DIR__ . '/../config/' . $this->configFileName);
 
-        // If this is server, load routes which is required for the server.
-        if (config('laravel-sso.type') == 'server') {
-            $this->loadRoutesFrom(__DIR__.'/Routes/server.php');
-        }
-
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         if ($this->app->runningInConsole()) {
@@ -37,6 +32,8 @@ class SSOServiceProvider extends ServiceProvider
                 Commands\ListBrokers::class,
             ]);
         }
+
+        $this->loadRoutes();
     }
 
     /**
@@ -67,5 +64,18 @@ class SSOServiceProvider extends ServiceProvider
     protected function publishConfig(string $configPath)
     {
         $this->publishes([$configPath => $this->getConfigPath()]);
+    }
+
+    /**
+     * Load necessary routes.
+     *
+     * @return void
+     */
+    protected function loadRoutes()
+    {
+        // If this page is server, load routes which is required for the server.
+        if (config('laravel-sso.type') == 'server') {
+            $this->loadRoutesFrom(__DIR__.'/Routes/server.php');
+        }
     }
 }

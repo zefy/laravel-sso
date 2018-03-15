@@ -2,11 +2,11 @@
 
 namespace Zefy\LaravelSSO\Controllers;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Zefy\LaravelSSO\LaravelSSOServer;
 
-class ServerController extends Controller
+class ServerController extends BaseController
 {
     /**
      * @param Request $request

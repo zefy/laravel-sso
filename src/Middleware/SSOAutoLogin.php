@@ -26,6 +26,7 @@ class SSOAutoLogin
             }
         } elseif (!auth()->guest()) {
             auth()->logout();
+            return response()->redirectTo($request->url());
         }
 
         return $next($request);

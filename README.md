@@ -105,7 +105,8 @@ protected function attemptLogin(Request $request)
 {
     $broker = new \Zefy\LaravelSSO\LaravelSSOBroker;
     
-    return $broker->login($request->get($this->username()), $request->get('password'));
+    $credentials = $this->credentials($request);
+    return $broker->login($credentials[$this->username()], $credentials['password']);
 }
 
 public function logout(Request $request)

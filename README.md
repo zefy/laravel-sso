@@ -1,5 +1,10 @@
 # Simple PHP SSO integration for Laravel
 
+[![Latest Version on Packagist][ico-version]][https://packagist.org/packages/zefy/laravel-sso]
+[![Software License][ico-license]](LICENSE.md)
+[![Quality Score][ico-code-quality]][https://scrutinizer-ci.com/g/zefy/laravel-sso]
+[![Total Downloads][ico-downloads]][https://packagist.org/packages/zefy/laravel-sso]
+
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
 
@@ -21,19 +26,19 @@ Client visits Broker and unique token is generated. When new token is generated 
 ### Server
 Install this package using composer.
 ```shell
-composer require zefy/laravel-sso
+$ composer require zefy/laravel-sso
 ```
 
 
 Copy config file to Laravel project `config/` folder.
 ```shell
-php artisan vendor:publish --provider="Zefy\LaravelSSO\SSOServiceProvider"
+$ php artisan vendor:publish --provider="Zefy\LaravelSSO\SSOServiceProvider"
 ```
 
 
 Create table where all brokers will be saved.
 ```shell
-php artisan migrate --path=vendor/zefy/laravel-sso/database/migrations
+$ php artisan migrate --path=vendor/zefy/laravel-sso/database/migrations
 ```
 
 
@@ -50,7 +55,7 @@ This is necessary because we need sessions to work in API routes and throttle mi
 Now you should create brokers.
 You can create new broker using following Artisan CLI command:
 ```shell
-php artisan sso:broker:create {name}
+$ php artisan sso:broker:create {name}
 ```
 
 ----------
@@ -58,13 +63,13 @@ php artisan sso:broker:create {name}
 ### Broker
 Install this package using composer.
 ```shell
-composer require zefy/laravel-sso
+$ composer require zefy/laravel-sso
 ```
 
 
 Copy config file to Laravel project `config/` folder.
 ```shell
-php artisan vendor:publish --provider="Zefy\LaravelSSO\SSOServiceProvider"
+$ php artisan vendor:publish --provider="Zefy\LaravelSSO\SSOServiceProvider"
 ```
 
 
@@ -105,7 +110,8 @@ protected function attemptLogin(Request $request)
 {
     $broker = new \Zefy\LaravelSSO\LaravelSSOBroker;
     
-    return $broker->login($request->get($this->username()), $request->get('password'));
+    $credentials = $this->credentials($request);
+    return $broker->login($credentials[$this->username()], $credentials['password']);
 }
 
 public function logout(Request $request)

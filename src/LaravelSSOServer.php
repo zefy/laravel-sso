@@ -66,17 +66,17 @@ class LaravelSSOServer extends SSOServer
      */
     protected function authenticate(string $username, string $password)
     {
-        if (Auth::attempt(['username' => $username, 'password' => $password])) {
-            // After authentication Laravel will change session id, but we need to keep
-            // this the same because this session id can be already attached to other brokers.
-            $sessionId = $this->getBrokerSessionId();
-            $savedSessionId = $this->getBrokerSessionData($sessionId);
-            $this->startSession($savedSessionId);
-
-            return true;
+        if (!Auth::attempt(['username' => $username, 'password' => $password])) {
+            return false;
         }
 
-        return false;
+        // After authentication Laravel will change session id, but we need to keep
+        // this the same because this session id can be already attached to other brokers.
+        $sessionId = $this->getBrokerSessionId();
+        $savedSessionId = $this->getBrokerSessionData($sessionId);
+        $this->startSession($savedSessionId);
+
+        return true;
     }
 
     /**

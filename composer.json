@@ -2,7 +2,16 @@
     "name": "zefy/laravel-sso",
     "description": "Simple PHP SSO integration for Laravel",
     "keywords": ["laravel", "sso", "authentication", "login"],
+    "homepage": "https://github.com/zefy/laravel-sso",
     "license": "MIT",
+    "authors": [
+      {
+        "name": "Martynas Žaliaduonis",
+        "email": "m.zaliaduonis@gmail.com",
+        "homepage": "https://github.com/zefy",
+        "role": "Developer"
+      }
+    ],
     "require": {
         "php": ">=7.1.3",
         "guzzlehttp/guzzle": "^6.3",

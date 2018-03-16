@@ -120,7 +120,7 @@ class LaravelSSOServer extends SSOServer
      *
      * @param array|object $user Can be user object or array.
      *
-     * @return array|object
+     * @return array|object|UserResource
      */
     protected function returnUserInfo($user)
     {
@@ -221,6 +221,6 @@ class LaravelSSOServer extends SSOServer
      */
     protected function getBrokerSessionData(string $brokerSessionId)
     {
-        return Cache::get('broker_session:' . $brokerSessionId, null);
+        return Cache::get('broker_session:' . $brokerSessionId);
     }
 }

@@ -26,6 +26,9 @@ return [
     'usersModel' => \App\User::class,
     'brokersModel' => Zefy\LaravelSSO\Models\Broker::class,
 
+    // Table used in Zefy\LaravelSSO\Models\Broker model
+    'brokersTable' => 'brokers',
+
     // Logged in user fields sent to brokers.
     'userFields' => [
         // Return array field name => database column name

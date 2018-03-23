@@ -3,7 +3,6 @@
 namespace Zefy\LaravelSSO\Commands;
 
 use Illuminate\Console\Command;
-use Zefy\LaravelSSO\Models\Broker;
 
 class ListBrokers extends Command
 {
@@ -40,7 +39,8 @@ class ListBrokers extends Command
     {
         $headers = ['ID', 'Name', 'Secret'];
 
-        $brokers = Broker::all(['id', 'name', 'secret'])->toArray();
+        $brokerClass = app(config('laravel-sso.brokersModel'));
+        $brokers = $brokerClass::all(['id', 'name', 'secret'])->toArray();
 
         $this->table($headers, $brokers);
     }

@@ -13,7 +13,7 @@ class CreateBrokersTable extends Migration
      */
     public function up()
     {
-        Schema::create('brokers', function (Blueprint $table) {
+        Schema::create(config('laravel-sso.brokersTable', 'brokers'), function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
             $table->string('secret');
@@ -28,6 +28,6 @@ class CreateBrokersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('brokers');
+        Schema::dropIfExists(config('laravel-sso.brokersTable', 'brokers'));
     }
 }

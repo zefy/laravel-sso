@@ -66,7 +66,7 @@ class LaravelSSOServer extends SSOServer
      */
     protected function authenticate(string $username, string $password)
     {
-        if (!Auth::attempt(['username' => $username, 'password' => $password])) {
+        if (!Auth::attempt(['email' => $username, 'password' => $password])) {
             return false;
         }
 
@@ -98,6 +98,24 @@ class LaravelSSOServer extends SSOServer
     }
 
     /**
+     * Check for User Auth with Broker Application.
+     *
+     * @return boolean
+     */
+    protected function checkBrokerUserAuthentication()
+    {
+        $userInfo = $this->userInfo();
+        $broker = $this->getBrokerDetail();
+        if(!empty($userInfo->id) && !empty($broker)) {
+            $brokerUser = config('laravel-sso.brokersUserModel')::where('user_id', $userInfo->id)->where('broker_id', $broker->id)->first();
+            if(empty($brokerUser)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Get the information about a user
      *
      * @param string $username
@@ -107,7 +125,7 @@ class LaravelSSOServer extends SSOServer
     protected function getUserInfo(string $username)
     {
         try {
-            $user = config('laravel-sso.usersModel')::where('username', $username)->firstOrFail();
+            $user = config('laravel-sso.usersModel')::where('email', $username)->firstOrFail();
         } catch (ModelNotFoundException $e) {
             return null;
         }

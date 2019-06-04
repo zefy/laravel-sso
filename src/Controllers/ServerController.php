@@ -54,6 +54,6 @@ class ServerController extends BaseController
      */
     public function userInfo(LaravelSSOServer $server)
     {
-        return $server->userInfo();
+        return $server->checkUserApplicationAuth();
     }
 }

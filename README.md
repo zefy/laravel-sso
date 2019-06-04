@@ -30,7 +30,7 @@ Client visits Broker and unique token is generated. When new token is generated 
 ### Server
 Install this package using composer.
 ```shell
-$ composer require zefy/laravel-sso
+$ composer require kcpal/laravel-sso
 ```
 
 

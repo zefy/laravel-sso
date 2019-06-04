@@ -116,6 +116,33 @@ class LaravelSSOServer extends SSOServer
     }
 
     /**
+     * Check for the User authorization with application and return error or userinfo
+     *
+     * @return string
+     */
+    public function checkUserApplicationAuth()
+    {
+        try {
+            if(empty($this->checkBrokerUserAuthentication())) {
+                $this->fail('User authorization failed with application.');
+            }
+        } catch (SSOServerException $e) {
+            return $this->returnJson(['error' => $e->getMessage()]);
+        }
+        return $this->userInfo();
+    }
+
+    /**
+     * Returning the broker details
+     *
+     * @return string
+     */
+    public function getBrokerDetail()
+    {
+        return $this->getBrokerInfo($this->brokerId);
+    }
+
+    /**
      * Get the information about a user
      *
      * @param string $username

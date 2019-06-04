@@ -10,6 +10,7 @@
 
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
+This Package Fork from https://github.com/zefy/laravel-sso to modify some change
 
 This package based on [Simple PHP SSO skeleton](https://github.com/zefy/php-simple-sso) package and made suitable for Laravel framework.
 ### Requirements

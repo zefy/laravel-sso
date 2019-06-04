@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use Zefy\SimpleSSO\SSOServer;
 use Zefy\LaravelSSO\Resources\UserResource;
+use Zefy\SimpleSSO\Exceptions\SSOServerException;
 
 class LaravelSSOServer extends SSOServer
 {

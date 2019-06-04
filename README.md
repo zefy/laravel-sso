@@ -10,6 +10,7 @@
 
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
+This Package Fork from https://github.com/zefy/laravel-sso to modify some change
 
 This package based on [Simple PHP SSO skeleton](https://github.com/zefy/php-simple-sso) package and made suitable for Laravel framework.
 ### Requirements
@@ -29,7 +30,7 @@ Client visits Broker and unique token is generated. When new token is generated 
 ### Server
 Install this package using composer.
 ```shell
-$ composer require zefy/laravel-sso
+$ composer require kcpal/laravel-sso
 ```
 
 
@@ -60,6 +61,22 @@ You can create new broker using following Artisan CLI command:
 ```shell
 $ php artisan sso:broker:create {name}
 ```
+
+After that in user model you can add the relation for broker as below:
+```php
+public function broker()
+    {
+        return $this->belongsToMany(Broker::class)
+                    ->where('deleted_at', NULL)
+                    ->withTimestamps();
+    }
+```
+
+Now, you can register or create users using basic Laravel functionality and then set the brokers of that user as below:
+```php
+$user->broker()->sync($brokers)
+```
+Here, `$user` is the object of `User` Model and `$brokers` is the array of ids of broker.
 
 ----------
 

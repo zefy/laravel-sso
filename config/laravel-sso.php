@@ -29,6 +29,9 @@ return [
     // Table used in Zefy\LaravelSSO\Models\Broker model
     'brokersTable' => 'brokers',
 
+    // What is the name of the column that users use to login with (generally 'username' or 'email)
+    'usernameField' => env('SSO_USERNAME_FIELD', 'username'),
+
     // Logged in user fields sent to brokers.
     'userFields' => [
         // Return array field name => database column name

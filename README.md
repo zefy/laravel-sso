@@ -89,7 +89,10 @@ SSO_BROKER_SECRET=
 ```
 `SSO_SERVER_URL` is your server's http url without trailing slash. `SSO_BROKER_NAME` and `SSO_BROKER_SECRET` must be data which exists in your server's `brokers` table.
 
-
+Optionally set the column of your authentication username field on your server ('username' by default) `.env` file:
+```shell
+SSO_USERNAME_FIELD=email
+```
 
 Edit your `app/Http/Kernel.php` by adding `\Zefy\LaravelSSO\Middleware\SSOAutoLogin::class` middleware to `web` middleware group. It should look like this:
 ```php

@@ -59,14 +59,14 @@ class LaravelSSOServer extends SSOServer
     /**
      * Authenticate using user credentials
      *
-     * @param string $email
+     * @param string $username
      * @param string $password
      *
      * @return bool
      */
-    protected function authenticate(string $email, string $password)
+    protected function authenticate(string $username, string $password)
     {
-        if (!Auth::attempt(['email' => $email, 'password' => $password])) {
+        if (!Auth::attempt(['username' => $username, 'password' => $password])) {
             return false;
         }
 
@@ -100,14 +100,14 @@ class LaravelSSOServer extends SSOServer
     /**
      * Get the information about a user
      *
-     * @param string $email
+     * @param string $username
      *
      * @return array|object|null
      */
-    protected function getUserInfo(string $email)
+    protected function getUserInfo(string $username)
     {
         try {
-            $user = config('laravel-sso.usersModel')::where('email', $email)->firstOrFail();
+            $user = config('laravel-sso.usersModel')::where('username', $username)->firstOrFail();
         } catch (ModelNotFoundException $e) {
             return null;
         }

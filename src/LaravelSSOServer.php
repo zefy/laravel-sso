@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use Zefy\SimpleSSO\SSOServer;
 use Zefy\LaravelSSO\Resources\UserResource;
+use Zefy\SimpleSSO\Exceptions\SSOServerException;
 
 class LaravelSSOServer extends SSOServer
 {
@@ -222,5 +223,50 @@ class LaravelSSOServer extends SSOServer
     protected function getBrokerSessionData(string $brokerSessionId)
     {
         return Cache::get('broker_session:' . $brokerSessionId);
+    }
+
+    /**
+     * Check for the User authorization with application and return error or userinfo
+     *
+     * @return string
+     */
+    public function checkUserApplicationAuth()
+    {
+        try {
+            if (empty($this->checkBrokerUserAuthentication())) {
+                $this->fail('User authorization failed with application.');
+            }
+        } catch (SSOServerException $e) {
+            return $this->returnJson(['error' => $e->getMessage()]);
+        }
+        return $this->userInfo();
+    }
+
+    /**
+     * Returning the broker details
+     *
+     * @return string
+     */
+    public function getBrokerDetail()
+    {
+        return $this->getBrokerInfo($this->brokerId);
+    }
+
+    /**
+     * Check for User Auth with Broker Application.
+     *
+     * @return boolean
+     */
+    protected function checkBrokerUserAuthentication()
+    {
+        $userInfo = $this->userInfo();
+        $broker = $this->getBrokerDetail();
+        if (!empty($userInfo->id) && !empty($broker)) {
+            $brokerUser = config('laravel-sso.brokersUserModel')::where('user_id', $userInfo->id)->where('broker_id', $broker->id)->first();
+            if (empty($brokerUser)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
